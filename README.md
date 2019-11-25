@@ -26,5 +26,5 @@ In `Baseball.java`, I provide a solution to the problem as specified by `Princet
 `certificateElim(String team)`: Returns the subset of teams that eliminates the given team.
 
 ## Dependencies:
-- algs4.jar
-- stdlib.jar
+- `algs4.jar`
+- `stdlib.jar`
