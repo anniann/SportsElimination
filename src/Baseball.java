@@ -24,7 +24,6 @@ public class Baseball
         tRemain = new int[cTeams];
         tRemainOthers = new int[cTeams][cTeams];
         queue = new ArrayDeque<String>();
-
         for (int iTeam = 0; iTeam < cTeams; iTeam++) {
             String line = in.readLine();
             Scanner lineScanner = new Scanner(line);
@@ -32,24 +31,23 @@ public class Baseball
             tWins[iTeam] = lineScanner.nextInt();
             tLosses[iTeam] = lineScanner.nextInt();
             tRemain[iTeam] = lineScanner.nextInt();
-
             for (int iAgainst = 0; iAgainst < cTeams; iAgainst++) {
                 tRemainOthers[iTeam][iAgainst] = lineScanner.nextInt();
             }
         }
 
     }
-    public int numberOfTeams(){
+    public int numberOfTeams() {
         return cTeams;
     }
-    public Iterable<String> teams(){
+    public Iterable<String> teams() {
         Stack<String> teams = new Stack<String>();
-        for(String s : tNames){
+        for (String s : tNames) {
             teams.push(s);
         }
         return teams;
     }
-    public int numberWins(String team){
+    public int numberWins(String team) {
         for (int i = 0; i < cTeams; i++) {
             if (team.equals(tNames[i])) {
                 return  tWins[i];
@@ -58,7 +56,7 @@ public class Baseball
         throw new java.lang.IllegalArgumentException();
     }
 
-    public int numberLosses(String team){
+    public int numberLosses(String team) {
         for (int i = 0; i < cTeams; i++) {
             if (team.equals(tNames[i])) {
                 return  tLosses[i];
@@ -66,23 +64,23 @@ public class Baseball
         }
         throw new java.lang.IllegalArgumentException();
     }
-    public int determineRemainingTeam(String team){
+    public int determineRemainingTeam(String team) {
         for (int i = 0; i < cTeams; i++) {
-            if(team.equals(tNames[i])){
+            if (team.equals(tNames[i])) {
                 return  tRemain[i];
             }
         }
         throw new java.lang.IllegalArgumentException();
     }
-    public int determineMatching(String team1, String team2){
+    public int determineMatching(String team1, String team2) {
         int numLeft = 0;
         int one = -1;
         int two = -1;
         for (int i = 0; i < cTeams; i++) {
-            if(team1.equals(tNames[i])){
+            if (team1.equals(tNames[i])) {
                 one = i;
             }
-            if (team2.equals(tNames[i])){
+            if (team2.equals(tNames[i])) {
                 two = i;
             }
         }
@@ -96,7 +94,7 @@ public class Baseball
     private boolean trivialSolution(int team) {
         boolean elim = false;
         for (int i = 0; i < cTeams; i++) {
-            if (team != i && tWins[team] + tRemain[team] < tWins[i] ){
+            if (team != i && tWins[team] + tRemain[team] < tWins[i]) {
                 elim = true;
                 queue.add(tNames[i]);
                 break;
@@ -117,7 +115,6 @@ public class Baseball
             for (int j = i + 1; j < cTeams; j++) {
                 graph.addEdge(new FlowEdge(vertex, games + i, Double.POSITIVE_INFINITY));
                 graph.addEdge(new FlowEdge(vertex, games + j,  Double.POSITIVE_INFINITY));
-
                 graph.addEdge(new FlowEdge(s, vertex, tRemainOthers[i][j]));
                 vertex ++;
                 toTCapacity += tRemainOthers[i][j];
@@ -133,7 +130,6 @@ public class Baseball
         }
         return new FordFulkerson(graph, s, t);
     }
-
     public boolean eliminatedTeam(String team) {
         queue = new ArrayDeque<String>();
         int index = -1;
@@ -166,7 +162,7 @@ public class Baseball
             }
         }
         int notEliminated = -1;
-        if (index != -1){
+        if (index != -1) {
             if (trivialSolution(index)) {
                 System.out.println("queue : " + queue.toString());
                 return queue;
